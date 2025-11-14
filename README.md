@@ -130,14 +130,3 @@ Contribuições são bem-vindas\! Sinta-se à vontade para abrir *issues* ou env
 Desenvolvido com 💙 por [Gabriel Braga](https://www.google.com/search?q=https://github.com/opinha)
 
 ```
-
-### O que eu fiz nessa formatação:
-
-1.  **Header Limpo:** Título claro com emojis.
-2.  **Badges/Avisos:** Um aviso claro de que precisa do Backend para funcionar.
-3.  **Passo a Passo de Instalação:** Comandos de código separados para facilitar a leitura (`git clone`, `pnpm install`).
-4.  **Seção `.env` em destaque:** Como essa é a parte onde a maioria dos erros acontece, deixei bem explícito como preencher.
-5.  **Tabela de Banco de Dados:** Adicionei uma tabela simples explicando o que o backend precisa ter, o que ajuda quem for clonar o projeto a entender a estrutura necessária.
-
-É só copiar o bloco acima e colar no seu arquivo `README.md`!
-```

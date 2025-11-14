@@ -1,4 +1,3 @@
-````markdown
 # 🎣 SisMEPes - App de Pesca
 
 Bem-vindo ao repositório do frontend do **SisMEPes**, um aplicativo mobile desenvolvido para auxiliar pescadores no registro e gerenciamento de suas pescarias.
@@ -130,3 +129,4 @@ Contribuições são bem-vindas\! Sinta-se à vontade para abrir *issues* ou env
 Desenvolvido com 💙 por [Gabriel Braga](https://www.google.com/search?q=https://github.com/opinha)
 
 ```
+

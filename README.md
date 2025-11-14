@@ -128,6 +128,5 @@ Contribuições são bem-vindas\! Sinta-se à vontade para abrir *issues* ou env
 
 Desenvolvido com 💙 por [Gabriel Braga](https://www.google.com/search?q=https://github.com/opinha)
 
-```
 
 

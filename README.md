@@ -39,9 +39,9 @@ Antes de começar, certifique-se de ter o ambiente configurado:
 1. **Node.js** (Versão LTS).
 2. **Gerenciador de Pacotes:** Recomendamos o **[pnpm](https://pnpm.io/)**, mas `npm` ou `yarn` também funcionam.
 3. **Expo CLI:**
-   ```bash
+
+    ```bash
    npm install -g expo-cli
-````
 
 4.  **App Expo Go:** Instalado no seu celular (Android ou iOS) para testes físicos.
 
@@ -129,4 +129,5 @@ Contribuições são bem-vindas\! Sinta-se à vontade para abrir *issues* ou env
 Desenvolvido com 💙 por [Gabriel Braga](https://www.google.com/search?q=https://github.com/opinha)
 
 ```
+
 

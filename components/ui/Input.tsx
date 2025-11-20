@@ -23,16 +23,17 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: theme.colors.background.input,
     borderRadius: theme.borderRadius.md,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: theme.colors.border.input,
-    paddingHorizontal: theme.spacing.md,
+    paddingHorizontal: theme.spacing.lg,
     paddingVertical: theme.spacing.md,
     color: theme.colors.text.primary,
     fontSize: theme.fontSize.md,
-    minHeight: 50,
+    minHeight: 56,
   },
   dark: {
-    backgroundColor: theme.colors.background.darker,
-    borderColor: theme.colors.primary,
+    backgroundColor: theme.colors.background.secondary,
+    borderColor: theme.colors.border.card,
+    color: theme.colors.text.inverse,
   },
 });

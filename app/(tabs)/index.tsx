@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl, StatusBar } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,41 +22,58 @@ export default function HomeScreen() {
     setRefreshing(false);
   };
 
+  const currentDate = new Date().toLocaleDateString('pt-BR', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'long'
+  });
+
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
-      <View style={styles.header}>
-        <Logo size={120} />
-        <TouchableOpacity style={styles.syncButton} onPress={handleRefresh}>
-          <Ionicons name="sync" size={24} color={theme.colors.primary} />
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={theme.colors.background.primary} />
+      <View style={[styles.header, { paddingTop: insets.top + theme.spacing.md }]}>
+        <View style={styles.headerContent}>
+          <View>
+            <Text style={styles.greeting}>Olá, Pescador</Text>
+            <Text style={styles.date}>{currentDate}</Text>
+          </View>
+          <TouchableOpacity style={styles.syncButton} onPress={handleRefresh}>
+            <Ionicons name="sync" size={20} color={theme.colors.text.inverse} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={handleRefresh}
             tintColor={theme.colors.primary}
+            colors={[theme.colors.primary]}
           />
         }
       >
-        <WeatherCard />
+        <View style={styles.weatherContainer}>
+          <WeatherCard />
+        </View>
 
+        <Text style={styles.sectionTitle}>Acesso Rápido</Text>
         <View style={styles.quickActions}>
           <QuickActionButton
             icon="location"
-            label="Pontos de Pesca"
+            label="Pontos"
             onPress={() => router.push('/fishing-spots')}
           />
           <QuickActionButton
             icon="book"
-            label="Meu Diário"
+            label="Diário"
             onPress={() => router.push('/all-diaries')}
           />
           <QuickActionButton
             icon="fish"
-            label="Minhas Capturas"
+            label="Capturas"
             onPress={() => router.push('/all-diaries')}
           />
           <QuickActionButton
@@ -69,28 +86,31 @@ export default function HomeScreen() {
         <TouchableOpacity
           style={styles.createButton}
           onPress={() => router.push('/add-diary')}
-          activeOpacity={0.8}
+          activeOpacity={0.9}
         >
-          <Ionicons name="add-circle" size={28} color={theme.colors.text.inverse} />
-          <Text style={styles.createButtonText}>Criar novo Diário</Text>
+          <View style={styles.createIcon}>
+            <Ionicons name="add" size={32} color={theme.colors.text.inverse} />
+          </View>
+          <View>
+            <Text style={styles.createButtonText}>Novo Registro</Text>
+            <Text style={styles.createButtonSubtext}>Adicionar ao diário</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={24} color="rgba(255,255,255,0.5)" style={styles.chevron} />
         </TouchableOpacity>
 
         <View style={styles.recentSection}>
           <View style={styles.recentHeader}>
-            <View>
-              <Text style={styles.recentTitle}>Diários Recentes</Text>
-              <Text style={styles.recentSubtitle}>Seg, 10 de novembro 2025</Text>
-            </View>
+            <Text style={styles.sectionTitle}>Recentes</Text>
             <TouchableOpacity onPress={() => router.push('/all-diaries')}>
-              <Text style={styles.viewAllButton}>Ver todos</Text>
+              <Text style={styles.viewAllText}>Ver todos</Text>
             </TouchableOpacity>
           </View>
 
           {recentEntries.length === 0 ? (
             <View style={styles.emptyState}>
-              <Ionicons name="document-text-outline" size={48} color={theme.colors.text.secondary} />
-              <Text style={styles.emptyText}>Nenhum diário criado</Text>
-              <Text style={styles.emptySubtext}>Crie seu primeiro diário de pesca</Text>
+              <Ionicons name="journal-outline" size={48} color={theme.colors.text.placeholder} />
+              <Text style={styles.emptyText}>Nenhum registro recente</Text>
+              <Text style={styles.emptySubtext}>Seus registros de pesca aparecerão aqui</Text>
             </View>
           ) : (
             recentEntries.map((entry) => <DiaryCard key={entry.id} entry={entry} />)
@@ -104,81 +124,115 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background.white,
+    backgroundColor: theme.colors.background.light,
   },
   header: {
     backgroundColor: theme.colors.background.primary,
     paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.md,
+    paddingBottom: theme.spacing.xl,
+    borderBottomLeftRadius: theme.borderRadius.xl,
+    borderBottomRightRadius: theme.borderRadius.xl,
+    ...theme.shadows.md,
+  },
+  headerContent: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  greeting: {
+    fontSize: theme.fontSize.xxl,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.inverse,
+  },
+  date: {
+    fontSize: theme.fontSize.sm,
+    color: 'rgba(255, 255, 255, 0.7)',
+    textTransform: 'capitalize',
+    marginTop: 2,
   },
   syncButton: {
     padding: theme.spacing.sm,
-    backgroundColor: theme.colors.background.white,
-    borderRadius: theme.borderRadius.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: theme.borderRadius.full,
+  },
+  scrollContent: {
+    paddingBottom: theme.spacing.xxl,
+  },
+  weatherContainer: {
+    marginTop: -theme.spacing.xl,
+    paddingHorizontal: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
+  },
+  sectionTitle: {
+    fontSize: theme.fontSize.lg,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.primary,
+    marginLeft: theme.spacing.lg,
+    marginBottom: theme.spacing.md,
   },
   quickActions: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: theme.spacing.md,
     paddingHorizontal: theme.spacing.lg,
-    marginBottom: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
   },
   createButton: {
     backgroundColor: theme.colors.accent,
     marginHorizontal: theme.spacing.lg,
-    marginBottom: theme.spacing.lg,
-    padding: theme.spacing.lg,
-    borderRadius: theme.borderRadius.md,
+    marginBottom: theme.spacing.xl,
+    padding: theme.spacing.md,
+    borderRadius: theme.borderRadius.lg,
     flexDirection: 'row',
     alignItems: 'center',
+    ...theme.shadows.md,
+  },
+  createIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: theme.borderRadius.full,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: 'center',
     justifyContent: 'center',
+    marginRight: theme.spacing.md,
   },
   createButtonText: {
     fontSize: theme.fontSize.lg,
     fontWeight: theme.fontWeight.bold,
     color: theme.colors.text.inverse,
-    marginLeft: theme.spacing.sm,
+  },
+  createButtonSubtext: {
+    fontSize: theme.fontSize.sm,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+  chevron: {
+    marginLeft: 'auto',
   },
   recentSection: {
     paddingHorizontal: theme.spacing.lg,
-    paddingBottom: theme.spacing.xxl,
   },
   recentHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: theme.spacing.lg,
+    marginBottom: theme.spacing.md,
   },
-  recentTitle: {
-    fontSize: theme.fontSize.lg,
-    fontWeight: theme.fontWeight.bold,
-    color: theme.colors.text.primary,
-  },
-  recentSubtitle: {
+  viewAllText: {
     fontSize: theme.fontSize.sm,
-    color: theme.colors.text.secondary,
-    marginTop: 4,
-  },
-  viewAllButton: {
-    fontSize: theme.fontSize.sm,
-    fontWeight: theme.fontWeight.bold,
-    color: theme.colors.text.primary,
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.xs,
-    backgroundColor: theme.colors.background.card,
-    borderRadius: theme.borderRadius.sm,
-    borderWidth: 1,
-    borderColor: theme.colors.border.light,
+    fontWeight: theme.fontWeight.semibold,
+    color: theme.colors.primary,
   },
   emptyState: {
     alignItems: 'center',
-    paddingVertical: theme.spacing.xxl,
+    paddingVertical: theme.spacing.xl,
+    backgroundColor: theme.colors.background.white,
+    borderRadius: theme.borderRadius.lg,
+    borderWidth: 1,
+    borderColor: theme.colors.border.light,
+    borderStyle: 'dashed',
   },
   emptyText: {
-    fontSize: theme.fontSize.lg,
+    fontSize: theme.fontSize.md,
     fontWeight: theme.fontWeight.semibold,
     color: theme.colors.text.secondary,
     marginTop: theme.spacing.md,

@@ -1,34 +1,43 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '@/constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export function WeatherCard() {
   return (
-    <View style={styles.container}>
-      <View style={styles.iconContainer}>
-        <Ionicons name="partly-sunny" size={48} color={theme.colors.text.inverse} />
+    <LinearGradient
+      colors={[theme.colors.primary, theme.colors.secondary]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
+    >
+      <View style={styles.content}>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>Previsão do Tempo</Text>
+          <Text style={styles.description}>Parcialmente nublado</Text>
+          <View style={styles.tempContainer}>
+            <Text style={styles.temperature}>28°</Text>
+            <Text style={styles.unit}>C</Text>
+          </View>
+        </View>
+        <View style={styles.iconContainer}>
+          <Ionicons name="partly-sunny" size={64} color={theme.colors.text.inverse} />
+        </View>
       </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>Previsão do tempo</Text>
-        <Text style={styles.description}>Parcialmente nublado</Text>
-      </View>
-      <Text style={styles.temperature}>28°</Text>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.background.weather,
     borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.lg,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: theme.spacing.lg,
-    marginBottom: theme.spacing.lg,
+    ...theme.shadows.md,
   },
-  iconContainer: {
-    marginRight: theme.spacing.md,
+  content: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   textContainer: {
     flex: 1,
@@ -41,11 +50,27 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: theme.fontSize.sm,
-    color: theme.colors.text.inverse,
+    color: 'rgba(255, 255, 255, 0.9)',
+    marginBottom: theme.spacing.md,
+  },
+  tempContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
   temperature: {
-    fontSize: theme.fontSize.xxxl,
+    fontSize: 48,
     fontWeight: theme.fontWeight.bold,
     color: theme.colors.text.inverse,
+    lineHeight: 56,
+  },
+  unit: {
+    fontSize: theme.fontSize.xl,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.inverse,
+    marginTop: 8,
+  },
+  iconContainer: {
+    marginLeft: theme.spacing.md,
+    opacity: 0.9,
   },
 });

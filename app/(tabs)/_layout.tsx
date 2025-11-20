@@ -12,9 +12,9 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: theme.colors.primary,
-        tabBarInactiveTintColor: theme.colors.text.inverse,
+        tabBarInactiveTintColor: theme.colors.text.secondary,
         tabBarStyle: {
-          backgroundColor: theme.colors.background.secondary,
+          backgroundColor: theme.colors.background.white,
           borderTopWidth: 0,
           height: Platform.select({
             ios: insets.bottom + 60,
@@ -28,19 +28,25 @@ export default function TabsLayout() {
             default: 8,
           }),
           paddingHorizontal: 16,
+          elevation: 8,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: '600',
+          marginBottom: 4,
         },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Pontos',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="location" size={size} color={color} />
+          title: 'Início',
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "home" : "home-outline"} size={size} color={color} />
           ),
         }}
       />
@@ -48,8 +54,8 @@ export default function TabsLayout() {
         name="profile"
         options={{
           title: 'Perfil',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "person" : "person-outline"} size={size} color={color} />
           ),
         }}
       />

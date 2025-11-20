@@ -10,8 +10,8 @@ interface ButtonProps {
 }
 
 export function Button({ title, onPress, variant = 'primary', loading = false, disabled = false }: ButtonProps) {
-  const backgroundColor = variant === 'primary' ? theme.colors.primary : theme.colors.secondary;
-  const textColor = variant === 'primary' ? theme.colors.background.dark : theme.colors.background.black;
+  const backgroundColor = variant === 'primary' ? theme.colors.primary : theme.colors.background.secondary;
+  const textColor = variant === 'primary' ? theme.colors.text.inverse : theme.colors.text.primary;
 
   return (
     <TouchableOpacity
@@ -37,15 +37,18 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: theme.borderRadius.md,
     paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.xl,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 50,
+    minHeight: 56,
+    ...theme.shadows.md,
   },
   text: {
     fontSize: theme.fontSize.lg,
     fontWeight: theme.fontWeight.bold,
+    letterSpacing: 0.5,
   },
   disabled: {
-    opacity: 0.6,
+    opacity: 0.7,
   },
 });
